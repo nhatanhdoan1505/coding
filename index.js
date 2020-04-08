@@ -16,7 +16,7 @@ mongoose.connect('mongodb+srv://doannhatanh:dhoPQ3lemwLNCtvG@cluster0-g513c.mong
     }
 });
 
-app.listen(3000, function () {
+app.listen(80, function () {
     console.log('Connect successful !');
 });
 
