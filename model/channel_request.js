@@ -1,14 +1,14 @@
 module.exports = function (string) {
     var request = require('request')
     var ob = {
-        Channel_titile: "",
+        Channel_title: "",
         Channel_id: "",
         Channel_sub: 0,
         Channel_views: 0,
         Channel_public: '',
         Channel_image:''
     }
-    request('https://www.youtube.com/user/PewDiePie/about', function (err, res, body) {
+    request(string, function (err, res, body) {
         if (err) {
             console.log("ERROR : " + err)
         } else {
@@ -18,7 +18,7 @@ module.exports = function (string) {
             var content = slice_between(body, start_string, end_string)
             var query_string = slice_between(content, 'title=', "data-sessionlink")
             var channelTitle = slice_value(query_string, '"')
-            ob.Channel_titile = channelTitle
+            ob.Channel_title = channelTitle
 
             query_string = slice_between(content, 'yt-uix-tooltip"', 'tabindex')
             query_string = query_string.slice(15)
@@ -29,7 +29,7 @@ module.exports = function (string) {
                 if (channelSub.indexOf("N") != - 1) {
                     channelSub = channelSub.slice(0, channelSub.length - 2)
                     channelSub = channelSub.replace(",", ".")
-                    ob.channel_sub = (Number(channelSub)) * 1000
+                    ob.Channel_sub = (Number(channelSub)) * 1000
                 } if (channelSub.indexOf("Tr") != - 1) {
                     channelSub = channelSub.slice(0, channelSub.length - 3)
                     channelSub = channelSub.replace(",", ".")
@@ -87,7 +87,7 @@ module.exports = function (string) {
         }
         var Channel = require('./channel')
         var channel = new Channel({
-            Channel_titile: ob.Channel_titile,
+            Channel_title: ob.Channel_title,
             Channel_id: ob.Channel_id,
             Channel_sub: ob.Channel_sub,
             Channel_views: ob.Channel_views,
@@ -96,7 +96,7 @@ module.exports = function (string) {
         })
         channel.save(function (err) {
             if (err) {
-                console.log("Save channel err" + err)
+                console.log("Save channel err " + err)
             } else {
                 console.log("Save channel successful")
             }

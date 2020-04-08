@@ -28,26 +28,31 @@ app.get('/channel', function (req, res) {
     res.render('channel')
 })
 
-app.post('/channel/information',urlencodedParser, function(req, res){
+app.post('/channel', urlencodedParser, function (req, res) {
     var URL = req.body.url
     URL = URL + '/about'
     var information = search(URL)
+    res.redirect('/channel/information')
 })
 
-app.get('/channel/information', function(req, res){
-    Channel.findOne().sort({$natural: -1}).limit(1).exec(function(err, result){
-        if(err){
+app.get('/channel/information', function (req, res) {
+    Channel.findOne().sort({ $natural: -1 }).limit(1).exec(function (err, result) {
+        if (err) {
             console.log(err);
         }
-        else{
-            res.render('information', {
-                id: result.Channel_id,
-                img: result.Channel_image,
-                title: result.Channel_title,
-                views: result.Channel_views,
-                public: result.Channel_public,
-                sub: result.Channel_sub
-            })
+        else {
+            if (result == null) {
+                res.render('channel')
+            } else {
+                res.render('information', {
+                    id: result.Channel_id,
+                    img: result.Channel_image,
+                    title: result.Channel_title,
+                    views: result.Channel_views,
+                    public: result.Channel_public,
+                    sub: result.Channel_sub
+                })
+            }
         }
     })
 })

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const channelSchema = new mongoose.Schema({
-    Channel_titile: String,
+    Channel_title: String,
     Channel_id: String,
     Channel_sub: Number,
     Channel_views: Number,
